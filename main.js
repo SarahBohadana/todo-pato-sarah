@@ -11,6 +11,10 @@ let counter = localStorage.getItem("count");
 
 addButton.addEventListener("click", addTask);
 listContainer.addEventListener("click", checkRemove);
+allButton.addEventListener("click", toggleClass);
+activeButton.addEventListener("click", toggleClass);
+completedButton.addEventListener("click", toggleClass);
+clearButton.addEventListener("click", toggleClass);
 inputBox.addEventListener("keydown", function(e){
     if(e.key === "Enter")
       return addTask()
@@ -63,10 +67,62 @@ function checkRemove(event) {
 
 function saveData(){
     localStorage.setItem("data", listContainer.innerHTML);
+    localStorage.setItem("count", spanCounter.innerHTML);
 };
 
 function showTask(){
     listContainer.innerHTML = localStorage.getItem("data");
+    spanCounter.innerHTML = localStorage.getItem("count");
 };
 showTask();
 
+function toggleClass(event){
+  let numLi = document.querySelectorAll("li");
+  let target = event.target;
+  for(let i = 0; i < numLi.length ; i ++){
+      let name = numLi[i].className;
+      let list = numLi[i].classList;
+      if (target == allButton){
+          if(name.includes("all")){
+              list.remove("display");
+      }}
+      else if (target == activeButton){
+          if(name.includes("active")){
+              list.remove("display");}
+          if(name.includes("checked")){
+              list.add("display");}  
+      }
+      else if (target == completedButton){
+          if(name.includes("active")){
+              list.add("display");}
+          if(name.includes("checked")){
+              list.remove("display");}
+  }
+  if (target == clearButton){
+      if(name.includes("checked")){
+          numLi[i].remove();  
+      }
+      saveData();
+  }
+}}
+//     if (target == allButton){
+//         for(let i = 0; i < numLi.length ; i ++){
+//             if(numLi[i].className.includes("all")){
+//                 numLi[i].classList.remove("display");
+//         }}
+//     } else if (target == activeButton){
+//         for(let i = 0; i < numLi.length ; i ++){
+//             if(numLi[i].className.includes("active")){
+//                 numLi[i].classList.remove("display");}
+//             if(numLi[i].className.includes("checked")){
+//                 numLi[i].classList.add("display");}
+            
+//             }
+//     } else if (target == completedButton){
+//         for(let i = 0; i < numLi.length ; i ++){
+//             if(numLi[i].className.includes("active")){
+//                 numLi[i].classList.add("display");
+//             }
+//             if(numLi[i].className.includes("checked")){
+//                 numLi[i].classList.remove("display");
+//  }}}};
